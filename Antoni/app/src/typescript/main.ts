@@ -1,8 +1,13 @@
-import sayHello from './greet';
+'use strict';
 
-function showHello(divName: string, name: string) {
-  const elt = document.getElementById(divName);
-  elt.innerText = sayHello(name);
+import TowerDefenseGame from './TowerDefenseGame';
+
+window.onload = function() {
+  let startButtonElement: HTMLElement = document.getElementById('startButton');
+  let stoptButtonElement: HTMLElement = document.getElementById('stopButton');
+  let MyGame: TowerDefenseGame = new TowerDefenseGame();
+  
+  // Button event handler
+  startButtonElement.onclick = () => {MyGame.startGame()};
+  stoptButtonElement.onclick = () => {MyGame.stopGame()};
 }
-
-showHello("greeting", "TypeScript");
