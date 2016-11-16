@@ -1,3 +1,6 @@
+import TowerDefenseMap from './TowerDefenseMap';
+import Enemy from './Enemy';
+
 /**
  * Tower Defense Game
  */
@@ -16,13 +19,20 @@ class TowerDefenseGame {
   private gameRunning: boolean = false;
 
   private testElement: HTMLElement; // TODO: just for testing, remove this.
+  private gameMap: TowerDefenseMap;
+  private enemies: Enemy[] = [];
 
   /**
    * Initialize the game.
    * Performs whatever tasks are leftover before the mainloop must run.
    */
   setInitialState():void {
-    console.log('setInitialState');
+    // Render the map
+    this.gameMap.render();
+
+    // Create an enemy
+    let enemy: Enemy = new Enemy(this.rootElement);
+    this.enemies.push(enemy);
   }
 
   public startGame(): void {
@@ -63,8 +73,8 @@ class TowerDefenseGame {
    * last update + MyGame.tickLength unless a pause feature is added, etc.)
    */
   private update(tickFrame: number){
+    // Test element
     let secondsSinceStart: number = Math.floor(tickFrame / 1000);
-
     if (secondsSinceStart > this.secondsSinceStart && Math.floor(tickFrame % 1000) < 100) {
       this.secondsSinceStart = secondsSinceStart;
       if (secondsSinceStart % 2 === 0){
@@ -72,8 +82,12 @@ class TowerDefenseGame {
       } else {
         this.testElement.style.left = '570px';
       }
-      
     }
+
+    // Enemies
+    this.enemies.forEach((enemy)=>{
+      enemy.update();
+    });
   }
 
   /**
@@ -82,7 +96,9 @@ class TowerDefenseGame {
    * extrapolation (purely cosmetic for fast devices). It draws the scene.
    */
   render(tickFrame: number){
-    // Something will happen here at some point :)
+    this.enemies.forEach((enemy)=>{
+      enemy.render();
+    });
   }
 
   /**
@@ -117,7 +133,10 @@ class TowerDefenseGame {
     this.lastRender = tickFrame;
   }
 
-  constructor() {
+  constructor(private rootElement: HTMLElement, 
+  private gameWidth: number = 600,
+  private gameHeight: number = 600) {
+    this.gameMap = new TowerDefenseMap(rootElement, gameWidth, gameHeight);
     // Init the state of the game
     this.setInitialState();
     this.testElement = document.getElementById('test');

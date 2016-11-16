@@ -7,12 +7,22 @@
 
   .box {
     position: absolute;
+    background-color: green;
     display: inline-block;
     border: 1px solid black;
     width: 20px;
     height: 20px;
     left: 10px;
-    top: 10px;
+    top: 18px;
     transition:left 1s ease-in-out;
+  }
+
+  .tower-defense-map {
+    position: absolute;
+  }
+
+  .tower-defense-enemy {
+    position: absolute;
+    background-color: red;
   }
 }
