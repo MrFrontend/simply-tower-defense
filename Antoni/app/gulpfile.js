@@ -38,7 +38,12 @@ var watchedBrowserify = watchify(browserify({
   entries: [paths.typescript.src],
   cache: {},
   packageCache: {}
-}).plugin(tsify));
+})
+.plugin(tsify))
+.transform('babelify', {
+  presets: ['es2015'],
+  extensions: ['.ts']
+});
 
 function bundle() {
   return watchedBrowserify
